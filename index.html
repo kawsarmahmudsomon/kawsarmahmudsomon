@@ -1115,8 +1115,8 @@
     if(btn){ btn.disabled = true; btn.textContent = 'Sending…'; }
 
     // ⚠️ Replace YOUR_SERVICE_ID and YOUR_TEMPLATE_ID with your EmailJS values
-    emailjs.send(
-  "YOUR_REAL_SERVICE_ID",
+emailjs.send(
+  "service_3hfutdj",
   "template_okr2elo",
   {
     from_name: name,
@@ -1128,12 +1128,13 @@
     message: msg || "No additional message"
   }
 )
+
 .then(function () {
 
   // Send confirmation email to user
 
   return emailjs.send(
-    "YOUR_REAL_SERVICE_ID",
+    "service_3hfutdj",
     "template_p9in4et",
     {
       from_name: name,
@@ -1147,6 +1148,7 @@
   );
 
 })
+
 .then(function () {
 
   alert("Appointment booked successfully!");
@@ -1154,6 +1156,7 @@
   document.getElementById('bookingForm').reset();
 
 })
+
 .catch(function (error) {
 
   console.log("EmailJS Error:", error);
