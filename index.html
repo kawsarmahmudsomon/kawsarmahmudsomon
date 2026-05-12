@@ -1115,31 +1115,53 @@
     if(btn){ btn.disabled = true; btn.textContent = 'Sending…'; }
 
     // ⚠️ Replace YOUR_SERVICE_ID and YOUR_TEMPLATE_ID with your EmailJS values
-    emailjs.send("service_3hfutdj", "template_okr2elo", {
-      from_name    : name,
-      from_phone   : phone,
-      from_email   : email,
-      meeting_type : type,
-      appt_date    : dateStr,
-      appt_time    : selSlot,
-      message      : msg || '(No additional message)',
-      to_email     : "kawsarmahmudsomon@gmail.com"
-    })
-    .then(()=>{
-      document.getElementById('successDetail').textContent =
-        `Your appointment request for ${dateStr} at ${selSlot} (${type}) has been sent successfully! Kawsar will get back to you soon.`;
-      document.getElementById('bookingForm').style.display='none';
-      document.getElementById('bookSuccess').style.display='block';
-      document.getElementById('bookSuccess').scrollIntoView({behavior:'smooth',block:'center'});
-    })
-    .catch((err)=>{
-      console.error('EmailJS error:', err);
-      alert('Sorry, something went wrong. Please try again or contact directly via email.');
-    })
-    .finally(()=>{
-      if(btn){ btn.disabled = false; btn.textContent = 'Request Appointment'; }
-    });
+    emailjs.send(
+  "YOUR_REAL_SERVICE_ID",
+  "template_okr2elo",
+  {
+    from_name: name,
+    from_phone: phone,
+    from_email: email,
+    meeting_type: type,
+    appt_date: dateStr,
+    appt_time: selSlot,
+    message: msg || "No additional message"
   }
+)
+.then(function () {
+
+  // Send confirmation email to user
+
+  return emailjs.send(
+    "YOUR_REAL_SERVICE_ID",
+    "template_p9in4et",
+    {
+      from_name: name,
+      from_phone: phone,
+      from_email: email,
+      meeting_type: type,
+      appt_date: dateStr,
+      appt_time: selSlot,
+      message: msg || "No additional message"
+    }
+  );
+
+})
+.then(function () {
+
+  alert("Appointment booked successfully!");
+
+  document.getElementById('bookingForm').reset();
+
+})
+.catch(function (error) {
+
+  console.log("EmailJS Error:", error);
+
+  alert("Something went wrong. Please try again.");
+
+});
+}
 
   function resetBooking(e){
     if(e){e.preventDefault();}
